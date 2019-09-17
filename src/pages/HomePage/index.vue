@@ -1,13 +1,15 @@
 <template>
   <div>
-    <button class="button">homepage</button> 
-    <p class="is-size-1">This is homepage</p>
+    <post-list></post-list>
   </div>
 </template>
 
 <script>
+import PostList from './PostList'
 export default {
-
+  components: {
+    PostList
+  }
 }
 </script>
 
