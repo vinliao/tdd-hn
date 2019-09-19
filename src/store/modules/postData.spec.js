@@ -10,8 +10,9 @@ from there
 */
 
 import postData from './postData.js'
+import api from '@/api'
 
-const mock_data_get = [
+const fake_data = [
   {
     id: 123,
     title: 'first title'
@@ -23,16 +24,27 @@ const mock_data_get = [
 ]
 
 // this is mocking the axios module and it replaces the get function.
-// if we use axios.get(), it will return mock_data_get instead
+// if we use axios.get(), it will return fake_data instead
 // regardless of where it gets to
 
 // this is pretty useful because we don't need to wait for the request
 // to the server, it all happens locally, which means it's quicker
-jest.mock('axios', () => {
-  return {
-    get: () => (mock_data_get)
-  }
-})
+
+// this is an es6 class mock, it mocks the entire module. In this case,
+// it mocks the entire @/api module and we can specify the return
+// of each function
+// jest.mock('@/api', () => {
+//   return {
+//     get: () => (fake_data),
+
+//     // I can add other mocks here if I want
+//     post: () => ('Example mock')
+//   }
+// })
+
+// but those are redundant, it's better to only
+// mock the get
+api.get = jest.fn(() => (fake_data))
 
 describe('get_post', () => {
   it('gets posts and commits response', async () => {
@@ -49,20 +61,17 @@ describe('get_post', () => {
     }
 
     await postData.actions.get_post(store)
-    // Q: why use commit and not dispatch?
     expect(store.commit).toHaveBeenCalledWith('SET_POST', { post_id: 123 })
   })
 })
 
 describe('set_post', () => {
   it('sets post properly to store', () => {
-    // maybe I have to mock the state
     const state = {
-      
+      posts: {}
     }
 
-
-    // how do I verify that the mutation work properly?
-    // what kind of assertion do I have to make?
+    postData.mutations.SET_POST(state, fake_data)
+    expect(state.posts).toEqual(fake_data)
   })
 })
