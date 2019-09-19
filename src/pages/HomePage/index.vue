@@ -1,12 +1,7 @@
 <template>
   <div>
     <button class="button" @click="get_data">show</button>
-    <single-post v-for="post in posts"
-      :key="post.id" 
-      :author="post.user" 
-      :points="post.points" 
-      :title="post.title" 
-    ></single-post>
+    <post-list :posts="this.posts"></post-list>
   </div>
 </template>
 

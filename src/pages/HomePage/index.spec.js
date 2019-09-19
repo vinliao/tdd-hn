@@ -7,10 +7,6 @@ describe('HomePage', () => {
   })
 
   it('gets post data from server', () => {
-    // Q:
-    // 1. How do I assert that the api call is done correctly?
-    // 2. How di mock the api call to the server (since it's async)
-    // 3. How does this relate to component contract?
 
   })
 
