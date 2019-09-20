@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import postData from './modules/postData'
+import PostStore from './modules/post.module.js'
 
 Vue.use(Vuex);
 
@@ -10,6 +10,6 @@ export const store = new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    postData,
+    PostStore,
   }
 });

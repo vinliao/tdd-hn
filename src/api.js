@@ -16,7 +16,7 @@ const api = {
     }catch(err){
       throw new Error(err)
     }
-  }
+  },
 }
 
 export default api
