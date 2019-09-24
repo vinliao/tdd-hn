@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button class="button" @click="get_data">show</button>
     <post-list :posts="this.posts"></post-list>
   </div>
 </template>
@@ -9,7 +8,7 @@
 import PostList from './PostList'
 import SinglePost from './SinglePost'
 import api from '@/api'
-import { mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -24,20 +23,18 @@ export default {
   },
   
   methods: {
-    ...mapMutations([
-      'SET_POST'
+    ...mapActions([
+      'get_post'
     ]),
-    get_data(){
-      console.log(this.posts)
-    }
   },
 
   async mounted(){
-    const response = await api.get('news', '1.json')
-    this.posts = response.data 
+    await this.get_post({
+      type: 'news',
+      page: 1
+    })
 
-    // this is kinda useless I guess...
-    // this.SET_POST(response.data)
+    this.posts = this.$store.getters.get_post
   }
 }
 </script>

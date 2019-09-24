@@ -6,7 +6,18 @@ const state = {
 }
 
 const getters = {
-  get_post(state) {
+  get_post(state){
+    const start = state.current_page * state.post_length
+    const end = (state.current_page + 1) * state.post_length
+
+    return state.posts.slice(start, end)
+  },
+  get_max_page(state){
+    const all_post_length = state.posts.length
+    return Math.ceil(all_post_length / state.post_length)
+  },
+  get_all_post(state){
+    console.log(state.posts)
     return state.posts
   }
 }
@@ -14,7 +25,7 @@ const getters = {
 const mutations = {
   SET_POST(state, posts) {
     state.posts = posts
-  }
+  },
 }
 
 const actions = {
