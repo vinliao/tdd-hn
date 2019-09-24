@@ -1,11 +1,12 @@
-import { shallowMount, mount } from '@vue/test-utils'
+import { mount, shallowMount, createLocalVue } from '@vue/test-utils'
 import HomePage from '@/pages/HomePage'
 import api from '@/api'
+import VueRouter from 'vue-router'
+import { routes } from '@/routes'
 
-describe('HomePage', () => {
-
+describe('HomePage vuex', () => {
   // setup the test by mocking the store
-  api.get = jest.fn(() => Promise.resolve({}))
+  api.get = jest.fn(() => Promise.resolve())
   const posts = [{}, {}, {}]
   const $store = {
     dispatch: jest.fn(),
@@ -14,7 +15,7 @@ describe('HomePage', () => {
     }
   }
 
-  const wrapper = shallowMount(HomePage, {
+  const wrapper = mount(HomePage, {
     mocks: {
       $store
     }
@@ -42,6 +43,10 @@ describe('HomePage', () => {
     // the post needs a parantheses because it's still
     // in the form of "function"
     expect(post_list.props().posts()).toEqual(posts)
+
+    // Some note: I initially wanted to test whether passing
+    // a list would render the thing properly, but I've tested
+    // that on PostList.spec.js, it kinda useless if I do that.
   })
 
   // Another alternative is using the real store

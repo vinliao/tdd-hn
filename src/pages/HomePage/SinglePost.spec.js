@@ -31,5 +31,4 @@ describe('SinglePost', () => {
     const item_link = wrapper.find('a')
     expect(item_link.attributes().href).toBe(item.link)
   })
-  
 })

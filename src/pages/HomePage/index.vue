@@ -11,6 +11,7 @@ import api from '@/api'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  name: 'home-page',
   components: {
     PostList,
     SinglePost
