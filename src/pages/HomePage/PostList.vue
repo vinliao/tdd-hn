@@ -2,8 +2,9 @@
   <div>
     <single-post v-for="post in this.posts"
       :key="post.id"
+      :id="post.id"
       :author="post.user"
-      :link="post.link"
+      :url="post.url"
       :title="post.title"
       :points="post.points"
     ></single-post>

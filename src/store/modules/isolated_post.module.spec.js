@@ -56,8 +56,6 @@ const fake_data = [
 
 describe('actions', () => {
   it('gets posts and commits response', async () => {
-    // TODO: follow the extra steps on Edd's book (mocking the api.get implementation)
-
     // we mock the commit function (the mutation) so that we
     // can "emulate" saving data to store
 

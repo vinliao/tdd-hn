@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button class="button" @click="pushTo">push!</button>
     <post-list :posts="this.posts"></post-list>
   </div>
 </template>
@@ -27,6 +28,9 @@ export default {
     ...mapActions([
       'get_post'
     ]),
+    pushto(){
+      this.$router.push('comment/3')
+    }
   },
 
   async mounted(){

@@ -1,9 +1,14 @@
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import HomePage from '@/pages/HomePage'
+import CommentPage from '@/pages/CommentPage'
 import api from '@/api'
 import VueRouter from 'vue-router'
 import { routes } from '@/routes'
 
+// TODO:
+// refactor this to use local vue
+// since vue router needs to use localvue, might as well
+// use local vue on both vuex and vue router
 describe('HomePage vuex', () => {
   // setup the test by mocking the store
   api.get = jest.fn(() => Promise.resolve())
@@ -51,4 +56,41 @@ describe('HomePage vuex', () => {
 
   // Another alternative is using the real store
   // https://lmiller1990.github.io/vue-testing-handbook/vuex-in-components-mutations-and-actions.html#testing-with-a-real-vuex-store
+})
+
+// I actually have the option to mock the router entirely, but idk
+// that might not be the best thing to do..
+describe('HomePage router', () => {
+  const localVue = createLocalVue()
+  localVue.use(VueRouter)
+
+  it('will render comment component with correct id', () => {
+    const router = new VueRouter({ routes })
+    const id = 3
+
+    const $store = {
+      dispatch: jest.fn(),
+      getters: {
+        get_post: jest.fn(() => posts)
+      }
+    }
+
+    const wrapper = mount(HomePage, {
+      router,
+      localVue,
+      mocks: { $store }
+    })
+
+    // router.push(`comment/${id}`)
+    wrapper.find('button').trigger('click')
+
+    console.log(wrapper.text())
+    const commentComponent = wrapper.find(CommentPage)
+    expect(commentComponent.exists()).toBe(true)
+    expect(commentComponent.vm.$data.id).toEqual(id)
+    // expect(wrapper.find(CommentPage).exists()).toBe(true)
+    // expect(wrapper.text()).toContain(idkkk)
+
+    // expect(commentComponent.vm.id).toEqual(id)
+  })
 })
