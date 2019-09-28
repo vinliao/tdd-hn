@@ -20,9 +20,6 @@ export default {
   data(){
     return {
       posts: null,
-      fake_data: [
-        { title: 'title number 1', url: 'http://title1.com' },
-        { title: 'title number 2', url: 'http://title2.com' }]
     }
   },
   async mounted(){

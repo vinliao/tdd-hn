@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-    <router-link
-      to='/comment/3'
-      data-testid="comment-link"
-    >go to comment number 3</router-link>
-
-    <p data-testid="location-display">{{ $route.fullPath }}</p>
+    <p v-show="false" data-testid="location-display">{{ $route.fullPath }}</p>
     <router-view></router-view>
   </div>
 </template>
