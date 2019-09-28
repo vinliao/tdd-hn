@@ -1,30 +1,42 @@
 <template>
-  <div>
-    <p>this is home page</p>
-    <p>{{ this.value }}</p>
-    <button @click="goMethod" class="button" id="goButton">Go!</button>
-
+  <div v-if="this.posts">
+    <single-post
+      v-for="post in this.posts.data"
+      :key="post.id"
+      :id="post.id"
+      :user="post.user"
+      :points="post.points"
+      :url="post.url"
+      :title="post.title"
+    ></single-post>
   </div>
 </template>
 
 <script>
+import api from '@/api'
+import SinglePost from './SinglePost'
+
 export default {
   data(){
     return {
-      value: null,
+      posts: null,
+      fake_data: [
+        { title: 'title number 1', url: 'http://title1.com' },
+        { title: 'title number 2', url: 'http://title2.com' }]
     }
   },
-  mounted(){
-    console.log('hey it is mounted')
+  async mounted(){
+    this.posts = await api.get('news', '1.json')
+    // console.log(this.posts.data)
   },
   methods: {
-    goMethod(){
-      this.value = 'Hello my friend'
-    },
+  },
+  components: {
+    SinglePost
   }
+
 }
 </script>
 
 <style>
-
 </style>
