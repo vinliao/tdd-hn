@@ -1,14 +1,21 @@
 <template>
   <div>
-    <p data-testid="comment-content">
-      {{ this.content }}  
+    <p 
+      data-testid="comment-content"
+    >
+      {{ content }}  
     </p>   
   </div> 
 </template>
 
 <script>
 export default {
-  props: ['content']
+  props: {
+    content: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 

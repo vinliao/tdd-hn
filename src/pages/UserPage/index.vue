@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>this is user page!</p>
-    <p>{{ this.user }}</p>
+    <p>{{ user }}</p>
   </div>
 </template>
 

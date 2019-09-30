@@ -1,26 +1,32 @@
 <template>
   <div id="app">
     <button
+      data-testid="home-link"
       class="button"
       @click="goHome"
-      data-testid="home-link"
-    >Home</button>
+    >
+      Home
+    </button>
 
     <p
       v-show="false"
       data-testid="location-display"
-    >{{ $route.fullPath }}</p>
-    <router-view></router-view>
+    >
+      {{ $route.fullPath }}
+    </p>
+
+    <router-view />
   </div>
 </template>
 
 <script>
 export default {
+  // eslint-disable-next-line
   name: "app",
   components: {},
   methods: {
     goHome() {
-      this.$router.push('/');
+      this.$router.push("/");
     }
   }
 };

@@ -1,14 +1,14 @@
 <template>
-  <div v-if="this.posts">
+  <div v-if="posts">
     <single-post
-      v-for="post in this.posts.data"
-      :key="post.id"
+      v-for="post in posts.data"
       :id="post.id"
+      :key="post.id"
       :user="post.user"
       :points="post.points"
       :url="post.url"
       :title="post.title"
-    ></single-post>
+    />
   </div>
 </template>
 
@@ -17,6 +17,9 @@ import api from '@/api'
 import SinglePost from './SinglePost'
 
 export default {
+  components: {
+    SinglePost
+  },
   data(){
     return {
       posts: null,
@@ -25,12 +28,6 @@ export default {
   async mounted(){
     this.posts = await api.get('news', '1.json')
   },
-  methods: {
-  },
-  components: {
-    SinglePost
-  }
-
 }
 </script>
 

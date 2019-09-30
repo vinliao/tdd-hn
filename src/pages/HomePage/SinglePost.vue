@@ -2,34 +2,64 @@
   <div>
     <a
       v-if="isArticle"
-      :href="this.url"
+      :href="url"
       data-testid="article-link"
-    >{{ this.title }}</a>
+    >
+      {{ title }}
+    </a>
 
     <!-- clicking on title renders comment if it's not an article -->
     <router-link
       v-else
-      :to="{ name: 'comment', params: {id: this.id} }"
+      :to="{ name: 'comment', params: {id: id} }"
       data-testid="comment-link"
-    >{{ this.title }}</router-link>
+    >
+      {{ title }}
+    </router-link>
 
     <br>
 
     <router-link
-      :to="{ name: 'comment', params: {id: this.id} }"
+      :to="{ name: 'comment', params: {id: id} }"
       data-testid="comment-link"
-    >Comment </router-link>
+    >
+      Comment
+    </router-link>
 
-    <router-link 
-      :to="{ name: 'user', params: {user: this.user} }"
+    <router-link
+      :to="{ name: 'user', params: {user: user} }"
       data-testid="user-link"
-    >{{ this.user }}</router-link>
+    >
+      {{ user }}
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["url", "id", "user", "points", "title"],
+  props: {
+    url: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: Number,
+      default: 0
+    },
+    points: {
+      type: Number,
+      default: 0
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    user: {
+      type: String,
+      default: ''
+    },
+  },
+
   computed: {
     isArticle() {
       // in the api, the comments's url looks like this
