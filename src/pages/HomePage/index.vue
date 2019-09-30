@@ -24,7 +24,6 @@ export default {
   },
   async mounted(){
     this.posts = await api.get('news', '1.json')
-    // console.log(this.posts.data)
   },
   methods: {
   },

@@ -15,20 +15,29 @@ export default {
 
   data(){
     return {
-      comments: null
+      comments: []
     }
   },
   async mounted(){
     const itemId = this.$route.params.id
-    this.comments = await api.get('item', itemId + '.json')
-
+    const response = await api.get('item', itemId + '.json')
+    this.setComments(response.data.comments)
   },
   components: {
     SingleComment
   },
   methods: {
-    depthFirstComment(){
-      return null
+    setComments(rawComments){
+      // set comments using dfs, turning tree into an array
+      for(let i=0; i<rawComments.length; i++){
+        const currComments = rawComments[i]
+        this.comments.push(currComments) 
+
+        if(currComments.comments){
+          this.setComments(currComments.comments)
+        }
+
+      }
     }
   }
 

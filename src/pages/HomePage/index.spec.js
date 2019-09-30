@@ -4,7 +4,7 @@ import api from '@/api'
 import '@testing-library/jest-dom/extend-expect'
 import flushPromises from 'flush-promises'
 import { routes } from '@/routes'
-
+import _ from 'lodash'
 
 // FIXME: router link shows error "undefined" stuff
 describe('HomePage', () => {
@@ -20,7 +20,7 @@ describe('HomePage', () => {
       return Promise.resolve({ data: fake_data })
     })
 
-    const { getAllByTestId } = render(HomePage, {routes})
+    const { getAllByTestId, getByText } = render(HomePage, {routes})
 
     // wait out the request to resolve in mounted()
     await flushPromises()
@@ -28,22 +28,18 @@ describe('HomePage', () => {
     // make sure article length is correct
     const articleList = getAllByTestId('article-link')
     expect(articleList).toHaveLength(fake_data.length)
+
+    // instead of testing whether clicking <a> tag will change the browser url
+    // (which I feel like implementation details), check whether the title
+    // is rendered with the right link (a tag) instead
+    // randomly pick one fake data and assert it's existence
+    const randomData = _.sample(fake_data)
+    getByText(randomData.title)
+
   })
 
   // maybe this isn't really important...
   // it('renders comment page if article link is clicked and is a hn comment', () => {})
-
-  it('goes to article page when it\'s article link is clicked', async () => {
-
-    // // // this feels like testing implementation details of anchor tag...
-    // const firstArticle = getByText(fake_data[0].title)
-    // // FIXME: this doesn't work
-    // await fireEvent.click(firstArticle)
-
-    // await flushPromises()
-
-    // // assert the current browser url
-    // expect(window.location.href).toEqual(fake_data[0].url)
-  })
+  // it('goes to article page when it\'s article link is clicked', async () => {})
   
 })

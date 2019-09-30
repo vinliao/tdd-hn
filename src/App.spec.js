@@ -16,8 +16,36 @@ describe('vue router', () => {
       { title: 'title number 2', url: 'item?id=20215129', id: 2 },
     ]
 
-    api.get = jest.fn(() => {
-      return Promise.resolve({ data: fake_data })
+    const fake_data_comments = [
+      { content: "one" , comments: [
+        { content: "four" , comments: [
+          { content: "five" },
+          { content: "six" },
+        ]}
+      ]},
+      { content: "two", comments: [
+        { content: "seven" },
+        { content: "eight" },
+        { content: "nine" },
+      ]},
+      { content: "three" },
+    ]
+
+    // TODO: put this mock in a separate folder and then import it here
+    // to make it less messy
+    api.get = jest.fn((resource, slug) => {
+
+      // the return of these data are structured differently
+      // and I'd like to make them the same
+      if(resource == 'news'){
+        return Promise.resolve({ data: fake_data })
+      }
+
+      else if(resource == 'item'){
+        return Promise.resolve({ data: {
+          comments: fake_data_comments
+        }})
+      }
     })
 
     const { getAllByTestId, getByTestId } = render(App, {routes})
