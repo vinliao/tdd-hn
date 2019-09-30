@@ -1,6 +1,15 @@
 <template>
   <div id="app">
-    <p v-show="false" data-testid="location-display">{{ $route.fullPath }}</p>
+    <button
+      class="button"
+      @click="goHome"
+      data-testid="home-link"
+    >Home</button>
+
+    <p
+      v-show="false"
+      data-testid="location-display"
+    >{{ $route.fullPath }}</p>
     <router-view></router-view>
   </div>
 </template>
@@ -8,7 +17,12 @@
 <script>
 export default {
   name: "app",
-  components: {}
+  components: {},
+  methods: {
+    goHome() {
+      this.$router.push('/');
+    }
+  }
 };
 </script>
 

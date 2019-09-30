@@ -5,18 +5,10 @@ import App from '@/App'
 import api from '@/api'
 import flushPromises from 'flush-promises'
 
-beforeEach(cleanup)
-
-// OR
-
-// afterEach(() => {
-//   // router link push /
-// })
-
 describe('vue router', () => {
   const fake_data = [
-    { title: 'title number 1', url: 'item?id=20952028', id: 1 },
-    { title: 'title number 2', url: 'item?id=20215129', id: 2 },
+    { title: 'title number 1', url: 'item?id=20952028', id: 1, user: 'pg' },
+    { title: 'title number 2', url: 'item?id=20215129', id: 2, user: 'sama' },
   ]
 
   api.get = jest.fn((resource, slug) => {
@@ -35,7 +27,6 @@ describe('vue router', () => {
     }
   })
 
-  // this means to test router-view, test it on the root of the tree
   it('renders comment page when comment link is clicked', async () => {
     const { getAllByTestId, getByTestId } = render(App, { routes })
 
@@ -46,12 +37,29 @@ describe('vue router', () => {
     const firstComment = getAllByTestId('comment-link')[0]
     await fireEvent.click(firstComment)
 
-    getByTestId('comment-page')
-
     // another alternative of asserting
-    // const locationDisplay = getByTestId('location-display')
-    // expect(locationDisplay).toHaveTextContent('/comment/' + String(fake_data[0].id))
+    const locationDisplay = getByTestId('location-display')
+    expect(locationDisplay).toHaveTextContent('/comment/' + String(fake_data[0].id))
+    
+    // go back to homepage again to make subsequent test starts from home
+    // doing this on beforeEach or afterEach produces error, for some reason
+    const homeButton = getByTestId('home-link')
+    await fireEvent.click(homeButton)
   })
 
-  it('renders user page when author link is clicked', () => { })
+  it('renders user page when author link is clicked', async () => {
+    const { getAllByTestId, getByTestId, getByText } = render(App, { routes })
+
+    // wait out the request to resolve in mounted()
+    await flushPromises()
+
+    const firstAuthor = getAllByTestId('user-link')[0]
+    await fireEvent.click(firstAuthor)
+
+    const locationDisplay = getByTestId('location-display')
+    expect(locationDisplay).toHaveTextContent('/user/', String(fake_data[0].user))
+
+    getByText(fake_data[0].user)
+
+  })
 })

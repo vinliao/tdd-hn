@@ -4,21 +4,26 @@
       v-if="isArticle"
       :href="this.url"
       data-testid="article-link"
-    >{{ title }}</a>
+    >{{ this.title }}</a>
 
-    <!-- maybe I have to use params to solve it -->
+    <!-- clicking on title renders comment if it's not an article -->
     <router-link
       v-else
       :to="{ name: 'comment', params: {id: this.id} }"
       data-testid="comment-link"
-    >{{ title }}</router-link>
+    >{{ this.title }}</router-link>
 
     <br>
 
     <router-link
       :to="{ name: 'comment', params: {id: this.id} }"
       data-testid="comment-link"
-    >Comment</router-link>
+    >Comment </router-link>
+
+    <router-link 
+      :to="{ name: 'user', params: {user: this.user} }"
+      data-testid="user-link"
+    >{{ this.user }}</router-link>
   </div>
 </template>
 

@@ -8,9 +8,9 @@ import _ from 'lodash'
 
 describe('HomePage', () => {
   const fake_data = [
-    { title: 'title number 1', url: 'item?id=20952028', id: 1 },
-    { title: 'title number 2', url: 'http://title2.com', id: 2 },
-    { title: 'title number 3', url: 'http://title3.com', id: 3 }
+    { title: 'title number 1', url: 'item?id=20952028', id: 1 , user: 'pg' },
+    { title: 'title number 2', url: 'http://title2.com', id: 2 , user: 'sama' },
+    { title: 'title number 3', url: 'http://title3.com', id: 3 , user: 'vinliao' }
   ]
 
   api.get = jest.fn(() => {
