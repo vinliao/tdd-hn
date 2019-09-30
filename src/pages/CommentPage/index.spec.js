@@ -37,10 +37,16 @@ describe('CommentPage', () => {
     const commentList = getAllByTestId('comment-content')
     expect(commentList).toHaveLength(totalComment)
 
-    // TODO:
-    // how do I test whether this is in the correct order?
-  })
+    // fake_data above (which is a tree) is turned into an array using dfs.
 
-  // optional
-  it('goes back to homepage when hn logo is clicked', () => { })
+    // these assertion is to make sure that the comments are
+    // in the right order.
+
+    // the value of 2nd comment is "four" and 6th comment is "two"
+    // is because that's how the comments looks like when the fake_data
+    // tree above has been sorted out into an array
+    expect(commentList[0]).toHaveTextContent("one")
+    expect(commentList[1]).toHaveTextContent("four")
+    expect(commentList[4]).toHaveTextContent("two")
+  })
 })

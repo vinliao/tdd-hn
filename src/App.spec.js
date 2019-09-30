@@ -59,7 +59,10 @@ describe('vue router', () => {
     const locationDisplay = getByTestId('location-display')
     expect(locationDisplay).toHaveTextContent('/user/', String(fake_data[0].user))
 
+    // when viewing user page, their name should be visibly seen
     getByText(fake_data[0].user)
 
+    const homeButton = getByTestId('home-link')
+    await fireEvent.click(homeButton)
   })
 })
