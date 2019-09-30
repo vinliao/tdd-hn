@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-testid="comment-page">
     <single-comment v-for="comment in this.comments"
       :key="comment.id" 
       :content="comment.content" 

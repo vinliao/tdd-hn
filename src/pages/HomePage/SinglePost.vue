@@ -1,15 +1,22 @@
 <template>
   <div>
     <a
+      v-if="isArticle"
       :href="this.url"
       data-testid="article-link"
     >{{ title }}</a>
 
+    <!-- maybe I have to use params to solve it -->
+    <router-link
+      v-else
+      :to="{ name: 'comment', params: {id: this.id} }"
+      data-testid="comment-link"
+    >{{ title }}</router-link>
+
     <br>
 
-    <!-- use params instead of query! -->
     <router-link
-      :to="{ path: 'comment/' + String(id) }"
+      :to="{ name: 'comment', params: {id: this.id} }"
       data-testid="comment-link"
     >Comment</router-link>
   </div>
@@ -17,7 +24,18 @@
 
 <script>
 export default {
-  props: ["url", "id", "user", "points", "title"]
+  props: ["url", "id", "user", "points", "title"],
+  computed: {
+    isArticle() {
+      // in the api, the comments's url looks like this
+      // item?id=12059125
+      if (this.url.startsWith("item")) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
 };
 </script>
 

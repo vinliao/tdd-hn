@@ -1,54 +1,43 @@
 import '@testing-library/jest-dom/extend-expect'
-import { render, fireEvent, getByTestId } from '@testing-library/vue'
+import { render, fireEvent, cleanup } from '@testing-library/vue'
 import { routes } from '@/routes'
 import App from '@/App'
 import api from '@/api'
 import flushPromises from 'flush-promises'
 
-// I actually can modify this to my liking...
-// FIXME: Doing this calls the api.get
+beforeEach(cleanup)
+
+// OR
+
+// afterEach(() => {
+//   // router link push /
+// })
+
 describe('vue router', () => {
-  it('goes through the full route', async () => {})
+  const fake_data = [
+    { title: 'title number 1', url: 'item?id=20952028', id: 1 },
+    { title: 'title number 2', url: 'item?id=20215129', id: 2 },
+  ]
 
-  it('goes to comment page when comment link is clicked', async () => {
-    const fake_data = [
-      { title: 'title number 1', url: 'item?id=20952028', id: 1 },
-      { title: 'title number 2', url: 'item?id=20215129', id: 2 },
-    ]
+  api.get = jest.fn((resource, slug) => {
+    if (resource == 'news') {
+      return Promise.resolve({ data: fake_data })
+    }
 
-    const fake_data_comments = [
-      { content: "one" , comments: [
-        { content: "four" , comments: [
-          { content: "five" },
-          { content: "six" },
-        ]}
-      ]},
-      { content: "two", comments: [
-        { content: "seven" },
-        { content: "eight" },
-        { content: "nine" },
-      ]},
-      { content: "three" },
-    ]
+    else if (resource == 'item') {
+      return Promise.resolve({
+        data: {
+          // it's okay to return wrong data, we don't care about
+          // testing the commentpage anyway
+          comments: fake_data
+        }
+      })
+    }
+  })
 
-    // TODO: put this mock in a separate folder and then import it here
-    // to make it less messy
-    api.get = jest.fn((resource, slug) => {
-
-      // the return of these data are structured differently
-      // and I'd like to make them the same
-      if(resource == 'news'){
-        return Promise.resolve({ data: fake_data })
-      }
-
-      else if(resource == 'item'){
-        return Promise.resolve({ data: {
-          comments: fake_data_comments
-        }})
-      }
-    })
-
-    const { getAllByTestId, getByTestId } = render(App, {routes})
+  // this means to test router-view, test it on the root of the tree
+  it('renders comment page when comment link is clicked', async () => {
+    const { getAllByTestId, getByTestId } = render(App, { routes })
 
     // wait out the request to resolve in mounted()
     await flushPromises()
@@ -57,9 +46,12 @@ describe('vue router', () => {
     const firstComment = getAllByTestId('comment-link')[0]
     await fireEvent.click(firstComment)
 
-    const locationDisplay = getByTestId('location-display')
-    expect(locationDisplay).toHaveTextContent('/comment/' + String(fake_data[0].id))
+    getByTestId('comment-page')
+
+    // another alternative of asserting
+    // const locationDisplay = getByTestId('location-display')
+    // expect(locationDisplay).toHaveTextContent('/comment/' + String(fake_data[0].id))
   })
 
-  it('renders author page when author link is clicked', () => {})
+  it('renders user page when author link is clicked', () => { })
 })
